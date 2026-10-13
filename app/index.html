@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop bench — 2004 Grand Cherokee Laredo 4.0L</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body data-mode="board" data-tree="p0505">
+<a class="skip" href="#stage">Skip to the bench</a>
+<div class="app">
+  <header class="top">
+    <div class="ident">
+      <p class="veh">2004 Grand Cherokee Laredo</p>
+      <p class="meta"><span>4.0L I6 · WJ · ERH</span><span class="count">CA / 4 O2 — count them</span><span>12 Oct 2026</span></p>
+    </div>
+    <div class="hazards" role="group" aria-label="Hazards">
+      <button type="button" class="haz" id="haz-glow" data-act="hazard" data-which="glow" aria-pressed="false">Manifold is glowing</button>
+      <button type="button" class="haz" id="haz-oil" data-act="hazard" data-which="oil" aria-pressed="false">Oil is on the exhaust or a sensor</button>
+    </div>
+    <div class="search">
+      <label for="q">Search</label>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" placeholder="P0161, pintle, booster, 4874373AB">
+      <button type="button" class="textbtn" data-act="clear-search">Clear search</button>
+    </div>
+  </header>
+  <div id="banner" class="banner" hidden role="status">
+    <p class="banner-main">STOP DRIVING. Cool completely. Do not spray water. Do not drive it. Tow if it has to move.</p>
+    <p id="banner-which"></p>
+    <p id="banner-lock">Locked while this is on: repair steps 7, 8, 11, and 12, verify with a drive, and marking codes cleared.</p>
+  </div>
+  <nav class="rail" aria-label="Modes">
+    <button type="button" class="mode is-on" data-act="mode" data-mode="board" aria-current="page">1 Board</button>
+    <button type="button" class="mode" data-act="mode" data-mode="walk">2 Walk</button>
+    <button type="button" class="mode" data-act="mode" data-mode="order">3 Order</button>
+    <button type="button" class="mode" data-act="mode" data-mode="bench">4 Bench</button>
+    <button type="button" class="mode" data-act="mode" data-mode="record">5 Record</button>
+    <button type="button" class="mode" data-act="mode" data-mode="pages">6 Pages</button>
+    <button type="button" class="textbtn clear-notes" data-act="clear-notes">Clear this truck's notes</button>
+  </nav>
+  <main id="stage" class="stage" tabindex="-1"></main>
+  <aside class="meter" aria-label="Live meter">
+    <h2>Meter</h2>
+    <section class="read">
+      <label for="m-rpm">Warm idle rpm</label>
+      <input id="m-rpm" data-meter="rpm" inputmode="decimal" autocomplete="off" spellcheck="false">
+      <label class="check"><input type="checkbox" id="m-cold" data-meter="cold"> Cold engine</label>
+      <div class="readout"><span id="chip-rpm" class="tag test">TEST REQUIRED</span><p id="say-rpm">Enter rpm.</p></div>
+    </section>
+    <section class="read">
+      <label for="m-iac">IAC coil ohms</label>
+      <input id="m-iac" data-meter="iac" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="ohms or OL">
+      <label for="m-pair">Which coil pair</label>
+      <input id="m-pair" data-meter="pair" autocomplete="off" spellcheck="false" placeholder="no wire colors">
+      <div class="readout"><span id="chip-iac" class="tag test">TEST REQUIRED</span><p id="say-iac">Enter ohms or OL.</p></div>
+    </section>
+    <section class="read">
+      <label for="m-heat">Heater ohms</label>
+      <input id="m-heat" data-meter="heater" inputmode="decimal" autocomplete="off" spellcheck="false" placeholder="ohms or OL">
+      <div class="seg" role="group" aria-label="Heater temperature">
+        <button type="button" id="heat-cold" data-act="heater-temp" data-temp="cold" aria-pressed="true">Cold</button>
+        <button type="button" id="heat-hot" data-act="heater-temp" data-temp="hot" aria-pressed="false">Hot</button>
+      </div>
+      <div class="readout"><span id="chip-heat" class="tag test">TEST REQUIRED</span><p id="say-heat">Enter cold heater ohms, or OL.</p></div>
+    </section>
+    <section class="read">
+      <label for="m-vac">Vacuum inHg</label>
+      <input id="m-vac" data-meter="vac" inputmode="decimal" autocomplete="off" spellcheck="false">
+      <label class="check"><input type="checkbox" id="m-flick" data-meter="flicker"> Needle flickers</label>
+      <div class="readout"><span id="chip-vac" class="tag test">TEST REQUIRED</span><p id="say-vac">Enter inHg.</p></div>
+    </section>
+    <p class="map-note">A manifold vacuum leak raises MAP and the PCM adds fuel, so the mixture can stay near normal while idle rises. Prove lean with upstream O2 and trims at idle versus about 2500 rpm.</p>
+  </aside>
+  <div id="dock" class="dock"></div>
+  <footer class="foot">Not a factory service manual. Verify tests, torque, and parts by VIN. Sheets stay the source. 12 Oct 2026.</footer>
+</div>
+<noscript><p>This bench needs JavaScript. It does not use a network.</p></noscript>
+<script src="assets/app.js"></script>
+</body>
+</html>
