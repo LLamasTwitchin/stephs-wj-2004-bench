@@ -53,6 +53,7 @@
     { test: /manifold crack|cold tick|exhaust tick/, mode: "common", page: "crack" },
     { test: /mini-?cat|exhaust|downstream|\bmanifold\b/, mode: "bench", map: "exhaust" },
     { test: /\bhose\b|\bccv\b|\bpcv\b|\b47128\b|\b4854265\b|\bevap\b|\bpurge\b|\bhvac\b|55115901/, mode: "bench", map: "hoses" },
+    { test: /diagram|schematic/, mode: "common", page: "figs" },
     { test: /\bfuses?\b/, mode: "common", page: "how" }
   ];
   var LINK = {
@@ -1174,6 +1175,7 @@
     if (b.t === "go") return '<p class="jumps"><button type="button" data-act="lib" data-id="' + esc(b.id) + '">' + inline(b.label || "Open") + "</button></p>";
     if (b.t === "links") return buyRow(b.items || []);
     if (b.t === "guide") return "<p>" + openGuideBtn(b.id, b.label || "Open the guide") + "</p>";
+    if (b.t === "fig") return renderFig(b.id);
     if (b.t === "jump") {
       var attrs = 'type="button" data-act="' + esc(b.act || "mode") + '"';
       if (b.mode) attrs += ' data-mode="' + esc(b.mode) + '"';
@@ -1184,6 +1186,12 @@
     }
     return "";
   }
+  function renderFig(id) {
+    var figs = window.STEPHS_FIGS || {};
+    var fig = figs[id];
+    if (!fig) return "";
+    return '<figure class="fig" data-find="' + esc((fig.find || "") + " " + (fig.title || "") + " " + (fig.caption || "")) + '"><p class="dtitle">' + esc(fig.title || "") + '</p><div class="diag">' + fig.html + '</div><figcaption>' + inline(fig.caption || "") + "</figcaption></figure>";
+  }
   function renderCommon() {
     var lib = libRoot();
     var page = libPage(state.common && state.common.id);
@@ -1192,7 +1200,7 @@
     }
     if (!page) {
       var html = '<section><p class="kicker">Common issues · this WJ only</p><h1>Separate pages. The lid still wins.</h1>' +
-        '<p class="lede">2004 Grand Cherokee WJ, stated 4.0L. Not a 2005 and later WK, and not a diesel chart. Owner-manual rows are marked PUBLISHED. Service-chart rows are marked CHART. If the cover in the truck disagrees, the cover wins. Idle, oil-fire, and P0161 stay on their own walks.</p>';
+        '<p class="lede">2004 Grand Cherokee WJ, stated 4.0L. Not a 2005 and later WK, and not a diesel chart. Owner-manual rows are marked PUBLISHED. Service-chart rows are marked CHART. If the cover in the truck disagrees, the cover wins. Diagrams are shop drawings, not the lid and not a factory schematic. Idle, oil-fire, and P0161 stay on their own walks.</p>';
       (lib.groups || []).forEach(function (g) {
         var pages = lib.pages.filter(function (p) { return p.group === g.id; });
         if (!pages.length) return;
@@ -1204,9 +1212,11 @@
       });
       return html + '<p id="empty-search" class="empty" hidden>Nothing on this screen matches.</p></section>';
     }
+    var figHtml = (page.figs || []).map(renderFig).join("");
+    var body = (page.blocks || []).map(renderBlock).join("");
     return '<section><p class="kicker">' + esc(page.kicker || "Common issues") + "</p><h1>" + esc(page.title) + "</h1>" +
       '<p class="buy-row"><button type="button" data-act="lib" data-id="">All common issues</button></p>' +
-      (page.blocks || []).map(renderBlock).join("") +
+      (page.figAfter ? body + figHtml : figHtml + body) +
       '<p class="lib-foot buy-row"><button type="button" data-act="lib" data-id="">All common issues</button></p>' +
       '<p id="empty-search" class="empty" hidden>Nothing on this screen matches. Clear the search to see the whole page.</p></section>';
   }
@@ -1428,6 +1438,8 @@
     if (hit.part) scrollParts = true;
     var after = state.mode + state.common.id + state.walk.tree + state.walk[state.walk.tree].step + state.bench.map + state.bench.node + state.bench.filter;
     if (before === after) return false;
+    var search = document.getElementById("q");
+    if (search) search.value = "";
     save();
     return true;
   }

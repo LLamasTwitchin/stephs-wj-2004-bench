@@ -18,6 +18,7 @@ window.STEPHS_LIB = {
       blurb: "Idle, oil-fire, and P0161. This library does not merge them.",
       kicker: "This truck · do not collapse the story",
       find: "glow oil p0505 p0161 idle pintle heater separate chains",
+      figs: ["split3", "oilpaths"],
       blocks: [
         { t: "p", text: "The idle chain, the oil-on-exhaust fire hazard, and P0161 stay three problems. A page in this library does not turn them into one diagnosis. If the manifold is glowing or oil is on the exhaust, the hazard buttons at the top still lock the repair steps." },
         { t: "card", kind: "stop", title: "Glow is Guide 05", text: "Bright orange or red iron: stop driving, do not spray water, do not idle it to watch, tow if it has to move. A cold tick is a different page. Overheat on the temp gauge is a different page." },
@@ -27,7 +28,23 @@ window.STEPHS_LIB = {
         { t: "jump", act: "goto", mode: "walk", tree: "p0161", label: "Walk P0161" },
         { t: "jump", act: "mode", mode: "order", label: "Open the repair order" },
         { t: "guide", id: "05", label: "Open Guide 05, glowing manifold" },
-        { t: "guide", id: "06", label: "Open Guide 06, oil and fire" }
+        { t: "guide", id: "06", label: "Open Guide 06, oil and fire" },
+        { t: "go", id: "figs", label: "All diagrams" }
+      ]
+    },
+    {
+      id: "figs",
+      code: "FIG",
+      group: "here",
+      title: "Diagrams",
+      blurb: "Shop drawings. Not photos of this truck. Not the fuse lid.",
+      kicker: "This truck · field diagrams",
+      find: "diagram schematic drawing fuse layout exhaust sensor crank",
+      figAfter: true,
+      figs: ["split3", "places", "fusetest", "pdcflow", "cab", "heater", "iod", "grounds", "nocrank", "nofire", "hotstall", "engine", "charge", "skim", "belt", "cooling", "tickglow", "exhaust", "oilpaths", "blower", "trans42", "tcase", "ps", "wobble", "booster", "absring", "window", "lamps", "horn", "breaker", "radio"],
+      blocks: [
+        { t: "p", text: "These drawings were made for this bench. They are not photographs of this VIN, and they are not Chrysler service-manual pages. A fuse drawing is the flow. It is not the physical lid. If the label in the truck disagrees, the label wins." },
+        { t: "card", kind: "stop", title: "What no drawing here can be", text: "The stamped under-hood lid and the stamped interior cover. Photograph those on this truck. A factory wiring diagram is in the service manual for this VIN. A picture of a 2005 and later WK is the wrong truck." }
       ]
     },
     {
@@ -38,6 +55,7 @@ window.STEPHS_LIB = {
       blurb: "Look is not a test. Same amp, same body. Do not upsize.",
       kicker: "Power · test the fuse you can name",
       find: "fuse test ohms voltage puller mini atm jcase breaker upsize short",
+      figs: ["fusetest"],
       blocks: [
         { t: "p", text: "A fuse can look intact and be open. Measure it, or measure voltage on both sides with the circuit powered. This page is the method. The cavity numbers live on the under-hood page and the driver-side page, and the label in the truck wins over both." },
         { t: "h", text: "Do this" },
@@ -71,6 +89,7 @@ window.STEPHS_LIB = {
       blurb: "PDC by the battery. Lid wins. Not a 2005+ WK diagram.",
       kicker: "Power · power distribution center",
       find: "pdc under hood underhood power distribution cartridge jcase relay asd fuel pump horn fan iod oxygen injector blower abs",
+      figs: ["places", "pdcflow"],
       blocks: [
         { t: "p", text: "The under-hood power distribution center sits by the battery. The 2004 owner manual says it holds cartridge fuses, mini fuses, and ISO relays, and that the lid label identifies each one. Read that lid. If this chart and the lid disagree, the lid wins." },
         { t: "card", kind: "stop", title: "This is a WJ, 1999–2004", text: "Do not use a 2005 and later WK diagram. Those trucks use an IPM or TIPM. This one does not. Do not copy a diesel cavity onto this 4.0. Sites that label a 2004 Grand Cherokee as a WK are the wrong truck." },
@@ -141,6 +160,7 @@ window.STEPHS_LIB = {
       blurb: "Junction block left of the column. 2004 owner chart. Cover wins.",
       kicker: "Power · interior junction block",
       find: "junction block interior fuse driver side steering column cabin fuse box radio wiper breaker cigar outlet airbag ignition",
+      figs: ["cab", "heater"],
       blocks: [
         { t: "p", text: "The interior junction block is in the lower instrument panel, just left of the steering column. The cover has a stamped label. That stamp wins. If a row here and the cover disagree, follow the cover and write down what it says." },
         { t: "p", text: "This table is the 2004 owner manual interior chart, about pages 287–288. Two viewers agreed on these rows. {{stated:PUBLISHED}} Cavity 18 is 30A trailer tow. Its color was not on the pages used here, so this page does not invent one." },
@@ -204,6 +224,7 @@ window.STEPHS_LIB = {
       blurb: "Storage pull versus a draw that kills it overnight.",
       kicker: "Power · Ignition-Off Draw",
       find: "iod ignition off draw parasitic drain dead battery storage fuse 15 presets clock",
+      figs: ["iod"],
       blocks: [
         { t: "p", text: "A battery that dies after the truck sits for weeks is a different job from a battery that dies overnight, and both are different from an alternator that will not charge on a drive. Split them before you buy parts." },
         { t: "card", kind: "test", title: "What the owner manual says", text: "If the truck will be stored more than 21 days, remove cartridge fuse 15 in the under-hood PDC, the one labeled Ignition-Off Draw. Radio presets and the clock are lost. Match the lid before you pull it. {{stated:PUBLISHED}}" },
@@ -229,6 +250,7 @@ window.STEPHS_LIB = {
       blurb: "Shared faults. Clean the cables you can see before a module.",
       kicker: "Power · grounds",
       find: "ground battery negative engine block voltage drop g101 corrosion",
+      figs: ["grounds"],
       blocks: [
         { t: "p", text: "A bad battery-to-engine or battery-to-body ground makes the starter click, the gauges lie, and the alternator misbehave together. That pattern is one connection, not three parts." },
         { t: "ol", items: [
@@ -249,6 +271,7 @@ window.STEPHS_LIB = {
       blurb: "Battery, Park, starter relay, key wiggle, security light.",
       kicker: "Run · the starter never turns",
       find: "no crank click starter relay park neutral ignition switch key wiggle solenoid",
+      figs: ["nocrank"],
       blocks: [
         { t: "p", text: "No crank means the engine does not turn. A crank with no fire is the next page. A security light that stays on is the SKIM page. Do not buy a starter, a switch, and a PDC in one trip." },
         { t: "ol", items: [
@@ -273,6 +296,7 @@ window.STEPHS_LIB = {
       blurb: "Pump, ASD, spark, injectors. No starting fluid on a glow.",
       kicker: "Run · it turns, it does not catch",
       find: "crank no start fuel pump asd spark injector noid prime relay",
+      figs: ["nofire"],
       blocks: [
         { t: "p", text: "The engine turns and does not catch. Split fuel from spark before you buy a sensor. This 4.0 has a coil rail and no distributor. Timing is not a wrench adjustment. {{conf:CONFIRMED}} on this package." },
         { t: "ol", items: [
@@ -296,6 +320,7 @@ window.STEPHS_LIB = {
       blurb: "Crank sensor pattern. Wiring campaign number is not confirmed here.",
       kicker: "Run · dies hot, catches again when cool",
       find: "crank sensor cps hot stall cam sensor bellhousing restart no spark dies hot",
+      figs: ["hotstall", "engine"],
       blocks: [
         { t: "p", text: "Pattern: it runs, dies hot, cranks and will not catch, then starts after it cools. On the 4.0 that pattern is a {{likely:LIKELY}} crank-sensor fault. The sensor, the connector, and the wiring all count. The sensor sits on the bellhousing. Confirm the plug in your hand is that sensor." },
         { t: "ol", items: [
@@ -320,6 +345,7 @@ window.STEPHS_LIB = {
       blurb: "Belt, posts, then the alternator. Not a new PDC.",
       kicker: "Run · battery light, dim lamps, weak after a drive",
       find: "alternator charging battery voltage belt battery light 14 volts posts",
+      figs: ["charge"],
       blocks: [
         { t: "p", text: "The alternator does not charge if the belt is gone. Look at the belt before you condemn the alternator. A battery that dies after sitting for days is the IOD page, not this one." },
         { t: "ul", items: [
@@ -341,6 +367,7 @@ window.STEPHS_LIB = {
       blurb: "SKIM immobilizer. The other key first. Not a starter.",
       kicker: "Run · SKIM",
       find: "skim security light immobilizer transponder key no start starts and dies",
+      figs: ["skim"],
       blocks: [
         { t: "p", text: "A security light that stays on, with a no-start or a start-and-stall, is the immobilizer. It is not a dead starter and it is not an ASD fuse. The truck can crank or it can fire and die. Read which one you have." },
         { t: "ol", items: [
@@ -361,6 +388,7 @@ window.STEPHS_LIB = {
       blurb: "No plug wires. No distributor. One miss is not a new rail yet.",
       kicker: "Run · ignition",
       find: "coil rail misfire plug no distributor no plug wires boot oil in well",
+      figs: ["engine"],
       blocks: [
         { t: "p", text: "Coil rail, no plug wires, no distributor. {{conf:CONFIRMED}} One rail covers the plugs. A single-cylinder misfire can be the plug, the boot, the connector, the injector, or low compression. Do not buy a rail because one cylinder is named in a code." },
         { t: "ol", items: [
@@ -382,6 +410,7 @@ window.STEPHS_LIB = {
       blurb: "One belt. If it shreds, you lose charge, steering assist, and pump flow.",
       kicker: "Run · belt",
       find: "serpentine belt tensioner idler squeal shreds power steering water pump",
+      figs: ["belt"],
       blocks: [
         { t: "p", text: "One belt runs the accessories. If it shreds: no charge, no power steering, no water-pump flow. Pull over. Do not keep driving it hot. The electric radiator fan is separate and does not save a missing belt." },
         { t: "ul", items: [
@@ -406,6 +435,7 @@ window.STEPHS_LIB = {
       blurb: "Viscous clutch plus an electric fan. Overheat is not a glowing manifold.",
       kicker: "Heat · temp gauge",
       find: "overheat radiator fan viscous clutch thermostat coolant temperature gauge electric fan",
+      figs: ["cooling", "tickglow"],
       blocks: [
         { t: "card", kind: "stop", title: "A pegged gauge is a shutdown", text: "Shut it off. Do not open a hot radiator cap. Do not spray water on a hot exhaust manifold and call that a cooling repair. A glowing manifold is Guide 05, not this page." },
         { t: "p", text: "This 4.0 has a mechanical viscous fan on the water pump and an electric radiator fan. The electric fan is for the A/C and for extra cooling. The chart says under-hood cavity 10 is a 40A radiator-fan fuse on the 4.0, with a fan relay in that box. {{stated:CHART}} The lid wins." },
@@ -430,6 +460,7 @@ window.STEPHS_LIB = {
       blurb: "Manifold crack pattern. Not the glow emergency. Not the oil fire.",
       kicker: "Heat · exhaust manifold",
       find: "exhaust tick manifold crack cold tick broken stud fades hot",
+      figs: ["tickglow", "exhaust"],
       blocks: [
         { t: "p", text: "A tick that is loud when cold and fades as it warms is a known 4.0 manifold pattern, often a cracked runner or a broken stud. {{likely:LIKELY}} as a pattern. It is not proof this manifold is cracked. Confirm it cold: soot at a seam, a broken stud, a loose flange." },
         { t: "card", kind: "stop", title: "A tick is not a glow", text: "If the iron is orange or red, stop and use the glow hazard. Do not drive a glowing manifold to see if the tick goes away. Guide 05." },
@@ -448,6 +479,7 @@ window.STEPHS_LIB = {
       blurb: "Only-on-high is the resistor. A dash click is not a heater core.",
       kicker: "Heat · HVAC",
       find: "blower resistor only on high blend door actuator heater core ac clutch vacuum elbow",
+      figs: ["blower"],
       blocks: [
         { t: "p", text: "Blower works only on high: {{likely:LIKELY}} the resistor or its connector. High speed bypasses the resistor. Lower speeds go through it. On the WJ the resistor is on the HVAC case, passenger side. Confirm the connector you unplug. A melted plug means replace the plug and the resistor. Do not twist the bare wires together." },
         { t: "ul", items: [
@@ -469,6 +501,7 @@ window.STEPHS_LIB = {
       blurb: "The 4.0 was built with the 42RE. Confirm the door sticker.",
       kicker: "Drivetrain · automatic",
       find: "42re 45rfe transmission solenoid atf flare dipstick neutral door sticker tcm",
+      figs: ["trans42"],
       blocks: [
         { t: "p", text: "The 4.0L WJ was built with the 42RE. The 4.7 used the 45RFE. {{likely:LIKELY}} by engine. Confirm the door sticker or the pan before you buy a solenoid pack. A 45RFE part does not belong on a 42RE. This package is a stated 4.0." },
         { t: "ul", items: [
@@ -493,6 +526,7 @@ window.STEPHS_LIB = {
       blurb: "Read the shifter. Do not guess NP231 versus NP242.",
       kicker: "Drivetrain · four wheel drive",
       find: "transfer case np231 np242 command-trac selec-trac 4wd axle u-joint tow",
+      figs: ["tcase"],
       blocks: [
         { t: "p", text: "This WJ is either an NP231 Command-Trac (part-time) or an NP242 Selec-Trac (the full-time option), depending on how it was built. {{test:TEST REQUIRED}} Read the shifter bezel. Do not order a chain, a pump, or a fluid by guessing the case." },
         { t: "ul", items: [
@@ -513,6 +547,7 @@ window.STEPHS_LIB = {
       blurb: "Not a vacuum hose. Do not pull these lines to chase idle.",
       kicker: "Drivetrain · steering assist",
       find: "power steering pump groan hose fluid heavy wheel belt",
+      figs: ["ps"],
       blocks: [
         { t: "p", text: "A heavy wheel, a groan that changes with steering, or fluid on the frame is the pump, a hose, the fluid level, or the box. It is not the idle chain. The belt has to be on the pump pulley. A squeal at the belt is the belt page." },
         { t: "card", kind: "stop", title: "Do not pull these hoses for a vacuum test", text: "Power-steering hoses are not on the hose map. Fluid on the exhaust is its own fire risk. Degrease cold. If the manifold is glowing, stop and use Guide 05. Do not open a pressure hose to see." },
@@ -530,6 +565,7 @@ window.STEPHS_LIB = {
       blurb: "Solid axle. A pattern, not one part. Stabilizer hides it.",
       kicker: "Chassis · steering",
       find: "death wobble track bar drag link ball joint control arm stabilizer shake",
+      figs: ["wobble"],
       blocks: [
         { t: "p", text: "A violent shake in the steering at highway speed, often after a bump, is the pattern called death wobble. It is a pattern, not a single part. {{likely:LIKELY}} that a loose track bar or a wallowed track-bar bracket is in the mix. Also on the list: drag-link ends, ball joints, control-arm bushings, tire balance, and a bent wheel." },
         { t: "ul", items: [
@@ -550,6 +586,7 @@ window.STEPHS_LIB = {
       blurb: "Hard pedal can be the idle leak. Soft pedal is fluid. Do not pinch the booster hose.",
       kicker: "Chassis · brakes",
       find: "brake booster hard pedal soft pedal brake switch park lights rotors abs",
+      figs: ["booster"],
       blocks: [
         { t: "p", text: "A hard pedal and a hiss at the booster hose can be the same leak that raises idle. That hose is on the hose map. Do not pinch it if that pedal is your only brake. Wheels chocked, Park, parking brake set." },
         { t: "card", kind: "stop", title: "A pedal that goes to the floor", text: "Fluid, air, or a leak at a wheel or the master. Not a vacuum leak. Do not drive it." },
@@ -571,6 +608,7 @@ window.STEPHS_LIB = {
       blurb: "Scan it. One wheel code is not four sensors and a module.",
       kicker: "Chassis · antilock",
       find: "abs light wheel speed sensor tone ring module pump fuse",
+      figs: ["absring"],
       blocks: [
         { t: "p", text: "The light means the controller saw a fault. It does not mean replace the module. A generic OBD reader often cannot see ABS codes. Use a tool that talks to the ABS controller." },
         { t: "ul", items: [
@@ -592,6 +630,7 @@ window.STEPHS_LIB = {
       blurb: "One dead window is not four motors. Cavity 12 is a conflict.",
       kicker: "Body · windows and seats",
       find: "power window door harness lock seat breaker adjustable pedals cavity 12",
+      figs: ["window"],
       blocks: [
         { t: "ul", items: [
           "One window dead: the switch, then the harness in the door boot, then the motor. Listen for a click at the motor before you buy one. A broken wire in the boot is a {{likely:LIKELY}} WJ find.",
@@ -611,6 +650,7 @@ window.STEPHS_LIB = {
       blurb: "One bulb is a bulb. Both beams out is the fuse, the relay, or the switch.",
       kicker: "Body · lights",
       find: "headlight headlamp high beam low beam park fog relay bulb trailer",
+      figs: ["lamps"],
       blocks: [
         { t: "p", text: "The owner chart names the lamp fuses. The cover wins. One bulb out is the bulb or the socket. Both low beams out, or both high beams out, is the fuse, the relay, or the switch. Do not buy four bulbs for a dead fuse." },
         { t: "table", caption: "Lamp rows from the 2004 owner chart. Amp and color are on the driver-side page. Cover wins.",
@@ -639,6 +679,7 @@ window.STEPHS_LIB = {
       blurb: "Fuse and relay first. Clock spring means stop before the airbag.",
       kicker: "Body · horn",
       find: "horn relay clock spring airbag steering wheel",
+      figs: ["horn"],
       blocks: [
         { t: "p", text: "Chart: under-hood mini 18 is 15A horn, relay R9. {{stated:CHART}} The lid wins. Swap the relay only with the same type." },
         { t: "card", kind: "stop", title: "Horn dead and the airbag light on", text: "That pair points at the clock spring in the wheel. Do not pull the steering wheel and do not unbolt the airbag as a test. That is a restraint-system job: a procedure, a battery wait, and the right tools. Stop at the fuse and the relay unless you are set up for that job." },
@@ -655,6 +696,7 @@ window.STEPHS_LIB = {
       blurb: "Two radio fuses plus the outlets. IOD pull wipes presets.",
       kicker: "Body · radio",
       find: "radio amplifier power outlet cigar lighter fuse presets antenna",
+      figs: ["radio"],
       blocks: [
         { t: "p", text: "Owner chart, cover wins: cavity 5 is 25A radio/amplifier, cavity 30 is 15A radio, cavity 9 is 20A power outlets, cavity 26 is 15A cigar lighter. An amplifier is optional. No display is often fuse 30, or the IOD fuse was pulled for storage and the radio lost its keep-alive. Presets die when IOD is pulled. That is expected, not a failed radio." },
         { t: "ul", items: [
@@ -675,6 +717,7 @@ window.STEPHS_LIB = {
       blurb: "C1 is a breaker. It clicks and resets. Do not replace it with a fuse.",
       kicker: "Body · wipers",
       find: "wiper washer circuit breaker c1 motor linkage multifunction switch rear wiper",
+      figs: ["breaker"],
       blocks: [
         { t: "p", text: "Owner chart: C1 is a 20A wiper circuit breaker, not a fuse that stays open. It can click and reset. A wiper that runs and then stops, or parks in the wrong place, may be tripping C1 because the linkage is dry or the motor is stalled. Do not replace C1 with a 30A fuse." },
         { t: "ul", items: [

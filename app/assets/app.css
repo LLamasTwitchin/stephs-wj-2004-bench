@@ -578,6 +578,50 @@ a.buy:hover { background: var(--test-bg); }
   padding: 8px 8px 4px;
 }
 .lib-foot { margin-top: 18px; }
+.fig {
+  margin: 10px 0 16px;
+  background: #fff;
+  border: 1px solid var(--navy);
+}
+.dtitle {
+  margin: 0;
+  padding: 8px 12px 0;
+  font-weight: 800;
+  color: var(--navy);
+}
+.diag { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px 4px; }
+.drow { display: flex; flex-wrap: wrap; gap: 8px; }
+.dcard {
+  flex: 1 1 180px;
+  min-width: 0;
+  border: 2px solid var(--navy);
+  background: #fff;
+  padding: 8px 10px;
+}
+.dcard b { display: block; font-size: 16px; }
+.dcard span { display: block; margin-top: 2px; font-weight: 600; }
+.dcard.test { border-color: var(--test); background: var(--test-bg); }
+.dcard.stop { border-color: var(--stop); background: var(--stop-bg); }
+.dcard.warn { border-color: var(--warn); background: var(--warn-bg); }
+.dcard.good { border-color: var(--good); background: var(--good-bg); }
+.darrow {
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--navy);
+  text-align: center;
+}
+.dnote {
+  margin: 0;
+  padding: 8px;
+  background: var(--paper);
+  border-left: 4px solid var(--navy);
+  font-weight: 650;
+}
+.fig figcaption {
+  margin: 0;
+  padding: 8px 12px 12px;
+  font-weight: 650;
+}
 .pager { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
 .pager button {
   min-height: 48px;
