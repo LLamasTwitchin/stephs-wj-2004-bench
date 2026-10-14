@@ -43,8 +43,17 @@
     { test: /4874373/, mode: "bench", map: "hoses", part: true },
     { test: /\bbooster\b/, mode: "bench", map: "hoses", node: "booster" },
     { test: /do[- ]?not[- ]?buy|\b23142\b|56029001|\b53030006\b/, mode: "bench", map: "hoses", filter: "no", part: true },
+    { test: /death wobble|track bar/, mode: "common", page: "wobble" },
+    { test: /crank sensor|hot stall|\bcps\b/, mode: "common", page: "hotstall" },
+    { test: /under[- ]?hood|\bpdc\b|power distribution/, mode: "common", page: "pdc" },
+    { test: /junction block|driver.?side fuse|interior fuse/, mode: "common", page: "junction" },
+    { test: /\biod\b|parasitic|dead battery/, mode: "common", page: "iod" },
+    { test: /\bskim\b|security light/, mode: "common", page: "skim" },
+    { test: /blend door|blower resistor|only on high/, mode: "common", page: "hvac" },
+    { test: /manifold crack|cold tick|exhaust tick/, mode: "common", page: "crack" },
     { test: /mini-?cat|exhaust|downstream|\bmanifold\b/, mode: "bench", map: "exhaust" },
-    { test: /\bhose\b|\bccv\b|\bpcv\b|\b47128\b|\b4854265\b|\bevap\b|\bpurge\b|\bhvac\b|55115901/, mode: "bench", map: "hoses" }
+    { test: /\bhose\b|\bccv\b|\bpcv\b|\b47128\b|\b4854265\b|\bevap\b|\bpurge\b|\bhvac\b|55115901/, mode: "bench", map: "hoses" },
+    { test: /\bfuses?\b/, mode: "common", page: "how" }
   ];
   var LINK = {
     iacStore: "https://store.mopar.com/oem-parts/mopar-air-idle-speed-motor-4874373ab",
@@ -243,6 +252,7 @@
   var lockFlash = "";
   var scrollParts = false;
   var scrollPage = false;
+  var scrollLib = false;
   var focusQ = false;
 
   function fresh() {
@@ -266,7 +276,8 @@
         freeze: "", cleared: "", codesBefore: "", codesAfter: "", notes: ""
       },
       bench: { map: "hoses", node: "", filter: "all" },
-      pages: { guide: "", n: 1 }
+      pages: { guide: "", n: 1 },
+      common: { id: "" }
     };
   }
 
@@ -279,7 +290,7 @@
       if (!s || typeof s !== "object") return base;
       base.hazardGlow = !!s.hazardGlow;
       base.hazardOil = !!s.hazardOil;
-      if (s.mode === "board" || s.mode === "walk" || s.mode === "order" || s.mode === "bench" || s.mode === "record" || s.mode === "pages") base.mode = s.mode;
+      if (s.mode === "board" || s.mode === "walk" || s.mode === "order" || s.mode === "bench" || s.mode === "record" || s.mode === "pages" || s.mode === "common") base.mode = s.mode;
       if (s.walk) {
         if (s.walk.tree === "p0161" || s.walk.tree === "p0505") base.walk.tree = s.walk.tree;
         ["p0505", "p0161"].forEach(function (t) {
@@ -316,6 +327,7 @@
         var pn = Number(s.pages.n);
         if (pn >= 1 && pn <= guideById(s.pages.guide).n) base.pages.n = pn;
       }
+      if (s.common && typeof s.common.id === "string" && libPage(s.common.id)) base.common.id = s.common.id;
     } catch (e) { return fresh(); }
     return base;
   }
@@ -416,7 +428,7 @@
 
   function renderBoard() {
     return '<section><p class="kicker">Board · three problems, kept apart</p><h1>Do not collapse these into one story</h1>' +
-      '<p class="lede">If the manifold is glowing or oil is on the exhaust, turn that hazard on before any other step. Walk one code at a time. Pages is every printed sheet.</p>' +
+      '<p class="lede">If the manifold is glowing or oil is on the exhaust, turn that hazard on before any other step. Walk one code at a time. Pages is every printed sheet. Common is a separate page for each fuse box and the other WJ problems. The lid on the truck wins over those charts.</p>' +
       '<div class="haz-board"><button type="button" class="haz-lg' + (state.hazardGlow ? " is-on" : "") + '" data-act="hazard" data-which="glow" aria-pressed="' + (state.hazardGlow ? "true" : "false") + '">Manifold is glowing</button>' +
       '<button type="button" class="haz-lg' + (state.hazardOil ? " is-on" : "") + '" data-act="hazard" data-which="oil" aria-pressed="' + (state.hazardOil ? "true" : "false") + '">Oil is on the exhaust or a sensor</button></div>' +
       hazardPanels() +
@@ -449,6 +461,7 @@
       '<button type="button" data-act="goto" data-mode="bench" data-map="exhaust">Exhaust map</button>' +
       '<button type="button" data-act="goto" data-mode="bench" data-map="hoses" data-filter="no" data-part="1">Do-not-buy list</button>' +
       '<button type="button" data-act="mode" data-mode="pages">Printed pages</button>' +
+      '<button type="button" data-act="mode" data-mode="common">Common issues</button>' +
       "</div>" + sheets() + "</section>";
   }
 
@@ -1109,10 +1122,99 @@
       "</div><p>" + openGuideBtn("01", "Open Guide 01, the test record sheet") + "</p></section>";
   }
 
+  var CHIP_KIND = { stop: 1, test: 1, likely: 1, poss: 1, conf: 1, cat: 1, stated: 1, no: 1, good: 1, win: 1, cand: 1 };
+  var CARD_KIND = { stop: 1, test: 1, poss: 1, good: 1 };
+  function libRoot() {
+    var lib = window.STEPHS_LIB;
+    if (!lib || !Array.isArray(lib.pages)) return { groups: [], pages: [] };
+    return lib;
+  }
+  function libPage(id) {
+    if (!id) return null;
+    var pages = libRoot().pages;
+    for (var i = 0; i < pages.length; i++) if (pages[i].id === id) return pages[i];
+    return null;
+  }
+  function inline(s) {
+    return esc(s).replace(/\{\{([a-z]+):([^}]+)\}\}/g, function (_, kind, text) {
+      if (!CHIP_KIND[kind]) return text;
+      return '<span class="tag ' + kind + '">' + text + "</span>";
+    });
+  }
+  function blockFind(b) {
+    if (!b) return "";
+    if (b.t === "table") {
+      return [b.caption || ""].concat(b.heads || []).concat((b.rows || []).map(function (r) { return r.join(" "); })).join(" ");
+    }
+    return [b.text, b.title, b.label, b.caption].concat(b.items || []).filter(Boolean).join(" ");
+  }
+  function renderBlock(b) {
+    var find = ' data-find="' + esc(blockFind(b)) + '"';
+    if (b.t === "p") return "<p" + find + ">" + inline(b.text) + "</p>";
+    if (b.t === "h") return "<h2" + find + ">" + inline(b.text) + "</h2>";
+    if (b.t === "ul" || b.t === "ol") {
+      var tag = b.t === "ol" ? "ol" : "ul";
+      return "<" + tag + ' class="proc"' + find + ">" + (b.items || []).map(function (item) {
+        return "<li>" + inline(item) + "</li>";
+      }).join("") + "</" + tag + ">";
+    }
+    if (b.t === "card") {
+      var kind = CARD_KIND[b.kind] ? b.kind : "test";
+      return '<article class="card ' + kind + '"' + find + "><h3>" + inline(b.title || "") + "</h3><p>" + inline(b.text || "") + "</p></article>";
+    }
+    if (b.t === "table") {
+      var heads = (b.heads || []).map(function (h) { return "<th>" + inline(h) + "</th>"; }).join("");
+      var rows = (b.rows || []).map(function (r) {
+        return '<tr data-find="' + esc(r.join(" ")) + '">' + r.map(function (cell, i) {
+          return (i === 0 ? "<th>" : "<td>") + inline(cell) + (i === 0 ? "</th>" : "</td>");
+        }).join("") + "</tr>";
+      }).join("");
+      return '<div class="table-wrap"' + find + '><table class="strip"><caption>' + inline(b.caption || "") + "</caption><thead><tr>" + heads + "</tr></thead><tbody>" + rows + "</tbody></table></div>";
+    }
+    if (b.t === "go") return '<p class="jumps"><button type="button" data-act="lib" data-id="' + esc(b.id) + '">' + inline(b.label || "Open") + "</button></p>";
+    if (b.t === "links") return buyRow(b.items || []);
+    if (b.t === "guide") return "<p>" + openGuideBtn(b.id, b.label || "Open the guide") + "</p>";
+    if (b.t === "jump") {
+      var attrs = 'type="button" data-act="' + esc(b.act || "mode") + '"';
+      if (b.mode) attrs += ' data-mode="' + esc(b.mode) + '"';
+      if (b.tree) attrs += ' data-tree="' + esc(b.tree) + '"';
+      if (b.map) attrs += ' data-map="' + esc(b.map) + '"';
+      if (b.node) attrs += ' data-node="' + esc(b.node) + '"';
+      return "<p class=\"jumps\"><button " + attrs + ">" + inline(b.label || "Open") + "</button></p>";
+    }
+    return "";
+  }
+  function renderCommon() {
+    var lib = libRoot();
+    var page = libPage(state.common && state.common.id);
+    if (!lib.pages.length) {
+      return "<section><h1>Common library did not load</h1><p>assets/library.js is missing. The rest of the bench still runs.</p></section>";
+    }
+    if (!page) {
+      var html = '<section><p class="kicker">Common issues · this WJ only</p><h1>Separate pages. The lid still wins.</h1>' +
+        '<p class="lede">2004 Grand Cherokee WJ, stated 4.0L. Not a 2005 and later WK, and not a diesel chart. Owner-manual rows are marked PUBLISHED. Service-chart rows are marked CHART. If the cover in the truck disagrees, the cover wins. Idle, oil-fire, and P0161 stay on their own walks.</p>';
+      (lib.groups || []).forEach(function (g) {
+        var pages = lib.pages.filter(function (p) { return p.group === g.id; });
+        if (!pages.length) return;
+        html += "<h2>" + esc(g.title) + '</h2><div class="guide-list">';
+        pages.forEach(function (p) {
+          html += '<button type="button" class="guide" data-act="lib" data-id="' + esc(p.id) + '" data-find="' + esc((p.find || "") + " " + p.title + " " + (p.blurb || "")) + '"><span class="num">' + esc(p.code || "") + "</span><span><b>" + esc(p.title) + "</b><small>" + esc(p.blurb || "") + "</small></span></button>";
+        });
+        html += "</div>";
+      });
+      return html + '<p id="empty-search" class="empty" hidden>Nothing on this screen matches.</p></section>';
+    }
+    return '<section><p class="kicker">' + esc(page.kicker || "Common issues") + "</p><h1>" + esc(page.title) + "</h1>" +
+      '<p class="buy-row"><button type="button" data-act="lib" data-id="">All common issues</button></p>' +
+      (page.blocks || []).map(renderBlock).join("") +
+      '<p class="lib-foot buy-row"><button type="button" data-act="lib" data-id="">All common issues</button></p>' +
+      '<p id="empty-search" class="empty" hidden>Nothing on this screen matches. Clear the search to see the whole page.</p></section>';
+  }
+
   function render() {
     document.body.dataset.mode = state.mode;
     document.body.dataset.tree = state.walk.tree;
-    var html = state.mode === "board" ? renderBoard() : state.mode === "walk" ? renderWalk() : state.mode === "order" ? renderOrder() : state.mode === "bench" ? renderBench() : state.mode === "pages" ? renderPages() : renderRecord();
+    var html = state.mode === "board" ? renderBoard() : state.mode === "walk" ? renderWalk() : state.mode === "order" ? renderOrder() : state.mode === "bench" ? renderBench() : state.mode === "pages" ? renderPages() : state.mode === "common" ? renderCommon() : renderRecord();
     document.getElementById("stage").innerHTML = html;
     document.querySelectorAll(".mode").forEach(function (b) {
       var on = b.dataset.mode === state.mode;
@@ -1136,6 +1238,11 @@
       var fig = document.querySelector(".sheetpage");
       if (fig) fig.scrollIntoView({ block: "start" });
       scrollPage = false;
+    }
+    if (scrollLib) {
+      var libTitle = document.querySelector("#stage h1");
+      if (libTitle) libTitle.scrollIntoView({ block: "start" });
+      scrollLib = false;
     }
   }
 
@@ -1300,8 +1407,12 @@
     var hit = null;
     JUMPS.some(function (j) { if (j.test.test(q)) { hit = j; return true; } return false; });
     if (!hit) return false;
-    var before = state.mode + state.walk.tree + state.walk[state.walk.tree].step + state.bench.map + state.bench.node + state.bench.filter;
-    state.mode = hit.mode;
+    var before = state.mode + state.common.id + state.walk.tree + state.walk[state.walk.tree].step + state.bench.map + state.bench.node + state.bench.filter;
+    if (hit.page) {
+      state.mode = "common";
+      state.common.id = libPage(hit.page) ? hit.page : "";
+      scrollLib = true;
+    } else state.mode = hit.mode;
     if (hit.tree) {
       state.walk.tree = hit.tree;
       if (hit.step) {
@@ -1315,7 +1426,7 @@
     if (hit.node) state.bench.node = hit.node;
     if (hit.filter) state.bench.filter = hit.filter;
     if (hit.part) scrollParts = true;
-    var after = state.mode + state.walk.tree + state.walk[state.walk.tree].step + state.bench.map + state.bench.node + state.bench.filter;
+    var after = state.mode + state.common.id + state.walk.tree + state.walk[state.walk.tree].step + state.bench.map + state.bench.node + state.bench.filter;
     if (before === after) return false;
     save();
     return true;
@@ -1337,6 +1448,16 @@
     if (act === "mode") {
       document.body.classList.remove("meter-open");
       state.mode = b.dataset.mode;
+      if (state.mode === "common") state.common.id = "";
+      save();
+      render();
+      return;
+    }
+    if (act === "lib") {
+      document.body.classList.remove("meter-open");
+      state.mode = "common";
+      state.common.id = libPage(b.dataset.id) ? b.dataset.id : "";
+      scrollLib = true;
       save();
       render();
       return;

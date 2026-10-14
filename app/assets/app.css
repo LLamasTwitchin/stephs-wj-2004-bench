@@ -37,6 +37,7 @@ body[data-mode="order"] { --accent: #166534; }
 body[data-mode="bench"] { --accent: #0f766e; }
 body[data-mode="record"] { --accent: #1b2a4a; }
 body[data-mode="pages"] { --accent: #1b2a4a; }
+body[data-mode="common"] { --accent: #92400e; }
 body.hazard-lock { --accent: #9f1239; }
 button, input, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
@@ -556,6 +557,27 @@ a.buy:hover { background: var(--test-bg); }
   font-weight: 650;
 }
 .guide small { display: block; color: var(--muted); font-weight: 650; }
+.guide .num {
+  width: 44px;
+  height: auto;
+  min-height: 32px;
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: 0;
+  padding: 2px;
+  text-align: center;
+}
+.table-wrap { overflow-x: auto; margin: 8px 0 14px; }
+.table-wrap .strip { min-width: 36rem; margin: 0; }
+.table-wrap .strip th { width: auto; }
+.table-wrap .strip tbody th { white-space: nowrap; }
+.table-wrap caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 750;
+  padding: 8px 8px 4px;
+}
+.lib-foot { margin-top: 18px; }
 .pager { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
 .pager button {
   min-height: 48px;
