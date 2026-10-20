@@ -39,6 +39,7 @@
   var JUMPS = [
     { test: /\bp0?161\b|\bb2s2\b|bank\s*2\s*sensor\s*2/, mode: "walk", tree: "p0161" },
     { test: /\bpintle\b/, mode: "walk", tree: "p0505", step: "pintle" },
+    { test: /key-?on|\bpcm\b|solo pcm|412/, mode: "common", page: "now" },
     { test: /\bp0?505\b/, mode: "walk", tree: "p0505" },
     { test: /4874373/, mode: "bench", map: "hoses", part: true },
     { test: /\bbooster\b/, mode: "bench", map: "hoses", node: "booster" },
@@ -430,6 +431,7 @@
   function renderBoard() {
     return '<section><p class="kicker">Board · three problems, kept apart</p><h1>Do not collapse these into one story</h1>' +
       '<p class="lede">If the manifold is glowing or oil is on the exhaust, turn that hazard on before any other step. Walk one code at a time. Pages is every printed sheet. Common is a separate page for each fuse box and the other WJ problems. The lid on the truck wins over those charts.</p>' +
+      '<article class="card stop" data-find="parked not driven key-on p0505 pcm oil fire current status"><h3>Current status ' + chip("stop", "STOP") + " " + chip("stated", "STATED") + '</h3><p>14 Oct 2026. Parked. Not being driven. Oil is on the manifold and that manifold has been glowing. P0505 returns at key-on, before the engine starts. That rules out a vacuum leak as the cause of this code. It does not yet prove a bad PCM. Do not start it.</p><button type="button" class="textbtn" data-act="lib" data-id="now">Open the current-status page</button></article>' +
       '<div class="haz-board"><button type="button" class="haz-lg' + (state.hazardGlow ? " is-on" : "") + '" data-act="hazard" data-which="glow" aria-pressed="' + (state.hazardGlow ? "true" : "false") + '">Manifold is glowing</button>' +
       '<button type="button" class="haz-lg' + (state.hazardOil ? " is-on" : "") + '" data-act="hazard" data-which="oil" aria-pressed="' + (state.hazardOil ? "true" : "false") + '">Oil is on the exhaust or a sensor</button></div>' +
       hazardPanels() +
@@ -450,6 +452,8 @@
       "<tr data-find=\"laredo erh vin 242\"><th>Vehicle and engine " + chip("stated", "STATED") + " " + chip("likely", "LIKELY") + "</th><td>2004 Grand Cherokee WJ Laredo, 4.0L I6, 242 ci, sales code ERH. VIN 8th character usually S. Verify the VIN.</td></tr>" +
       "<tr data-find=\"map maf speed density vacuum\"><th>Air metering " + chip("conf", "CONFIRMED") + "</th><td>Speed-density MAP. No MAF. A vacuum leak is not automatically unmetered air.</td></tr>" +
       "<tr data-find=\"iac throttle cable relearn\"><th>Throttle and idle " + chip("conf", "CONFIRMED") + "</th><td>Cable throttle, 4-wire stepper IAC. Not drive-by-wire. Do not use an electronic-throttle pedal relearn.</td></tr>" +
+      "<tr data-find=\"750 rpm idle screen\"><th>Stated idle target " + chip("stated", "STATED") + "</th><td>About 750 rpm. Inside the 700-800 screen already on this bench. Not a new factory limit, and not proof of the 744 rpm bulletin.</td></tr>" +
+      "<tr data-find=\"parked key-on p0505 pcm\"><th>14 Oct 2026 " + chip("stop", "STOP") + "</th><td>Parked, not driven. Oil on the manifold. Manifold has glowed. P0505 returns at key-on before start. See the current-status page before any PCM purchase.</td></tr>" +
       "<tr data-find=\"coil distributor timing\"><th>Ignition " + chip("conf", "CONFIRMED") + "</th><td>Coil rail, no distributor. Timing is not set with a wrench.</td></tr>" +
       "<tr data-find=\"california federal oxygen sensors\"><th>Emissions " + chip("stated", "STATED") + " " + chip("test", "TEST REQUIRED") + "</th><td>California 4-sensor package is stated by the owner. Federal 4.0L of this year uses 2 sensors. Count sensors before buying. Purchase state does not decide the package.</td></tr>" +
       "<tr data-find=\"bank sensor p0161 downstream mini-cat\"><th>Banks " + chip("likely", "LIKELY") + "</th><td>Bank 1 = front cylinders 1–3 (radiator end). Bank 2 = rear cylinders 4–6. Sensor 1 = upstream, before that branch's mini-cat. Sensor 2 = downstream, after the mini-cat, before the main cat. Sensors sit in the downpipes, not in the cast manifold. P0161 = Bank 2 Sensor 2 = rear downstream. Confirm on the truck. Do not swap sensors.</td></tr>" +

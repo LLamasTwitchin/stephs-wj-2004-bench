@@ -11,6 +11,94 @@ window.STEPHS_LIB = {
   ],
   pages: [
     {
+      id: "now",
+      code: "NOW",
+      group: "here",
+      title: "Current status, 14 Oct 2026",
+      blurb: "Parked. Not being driven. Key-on P0505 is electrical. PCM is not bought yet.",
+      kicker: "This truck · stated status",
+      find: "parked fire p0505 key on pcm vacuum 1400 oil idle 750 quotes startmycar",
+      figs: ["keyon"],
+      blocks: [
+        { t: "card", kind: "stop", title: "Parked. Do not drive it. Do not start it.", text: "Stated 14 Oct 2026. Oil is dripping on the exhaust manifold, and that manifold has been glowing red. Those two together are a fire. Key-on meter tests are allowed. Starting it is not, until the pipe is cold, the oil is cleaned off, and the leak is fixed." },
+        { t: "h", text: "What this truck is" },
+        { t: "ul", items: [
+          "2004 Grand Cherokee Laredo, WJ, 4.0L inline-6. {{stated:STATED}}",
+          "California emissions, dual catalysts, four oxygen sensors. {{stated:STATED}} Count them before any sensor purchase. The old rule still stands.",
+          "Stated normal idle is about 750 rpm. That sits inside the existing 700-800 screen. It does not replace that screen, and it is not proof of the 744 rpm bulletin software."
+        ] },
+        { t: "h", text: "What is wrong right now" },
+        { t: "ul", items: [
+          "P0505 is active. Idle air control. {{stated:STATED}}",
+          "P0161 is stored. Bank 2 Sensor 2 heater, rear downstream. {{stated:STATED}} Still its own chain.",
+          "Idle is high and erratic. {{stated:STATED}}",
+          "The exhaust manifold has been glowing red. This note names an extreme lean condition and exhaust gas over 1,400 F as the cause. {{stated:STATED}} Lean remains one {{poss:POSSIBLE}} cause, with misfire, late timing, and a restricted catalyst still open. Do not start it to prove the mixture while oil is on the pipe.",
+          "Oil is dripping on the manifold. {{stated:STATED}} Guide 06. Not the idle chain. Not P0161."
+        ] },
+        { t: "h", text: "Already done" },
+        { t: "p", text: "These are stated results from the work so far. They stay on the record. They do not get erased by the PCM idea." },
+        { t: "ul", items: [
+          "The IAC was replaced twice with OEM parts. The valve that is on it tests good. {{stated:STATED}}",
+          "The IAC connector was replaced. {{stated:STATED}}",
+          "Continuity from the IAC connector to PCM C1, the black connector, tested good: no opens, no shorts to ground, no shorts between the four driver wires. {{stated:STATED}} That test was unpowered. It did not check short-to-power with the key on, and it did not prove the pins still grip when the connector is latched.",
+          "A previous owner pushed and pulled the pintle by hand. That can strip the stepper and lose its home. {{stated:STATED}} It still explains a bad idle once the engine is running. It does not, by itself, explain a code that sets before the engine turns."
+        ] },
+        { t: "h", text: "The clue" },
+        { t: "card", kind: "test", title: "P0505 comes back at key-on, before the engine starts", text: "Stated: clearing the codes and turning the key to ON brings P0505 back immediately, before crank and before run. {{stated:STATED}}" },
+        { t: "h", text: "Does that prove the PCM?" },
+        { t: "p", text: "A vacuum leak cannot set this code at key-on. The idle-speed check needs the engine running and a speed the PCM can compare. Cracked elbows can still lean the engine and glow the manifold after a start. They are a real job. They are not this clue." },
+        { t: "p", text: "A pintle that was shoved, with coils that still ohm out, fails while the engine is running. The key-on monitor is a circuit test: opens, shorts to ground, shorts to power. An instant code means that circuit test failed. {{test:TEST REQUIRED}} It does not yet prove the chip inside the PCM. The unpowered continuity check left two holes: short-to-power with the key on, and terminals that ohm out only because the probe is shoved in." },
+        { t: "p", text: "After those two checks are clean, and a known-good IAC is plugged in, and the code still sets the moment the key is on, the IAC driver in the PCM is the remaining suspect. {{poss:POSSIBLE}} This page does not call that a counted failure rate, and it does not call it confirmed." },
+        { t: "h", text: "Tests before any PCM money" },
+        { t: "card", kind: "stop", title: "Do not jumper the ASD relay", text: "That powers the coils, the injectors, and the pump circuit. It is not the IAC test. With oil on a manifold that has been glowing, do not force that relay and do not start the engine." },
+        { t: "ol", items: [
+          "Iron cold. Truck parked. Wheels chocked. Key-on only. Do not crank.",
+          "Unplug the IAC. Measure both coils. The screen already on this bench is about 40-80 ohms a coil. Write both pairs. No wire colors are printed here.",
+          "Key ON, engine off, IAC still unplugged. Probe the four harness cavities. Each one to battery negative, and each one to battery positive. A dead short to ground, or a wire held at battery voltage, is a harness fault the unpowered test can miss.",
+          "Unplug PCM C1, the black connector. Repeat those checks on the harness side. If the short disappears when C1 is unplugged, the PCM was the path. If the short remains, the harness is the path.",
+          "Look at the C1 terminals for spread pins. A wire that passes with a probe forced in can fail when the latch is closed.",
+          "Plug C1 back in. Key ON with the IAC unplugged, then again with the known-good IAC plugged in. If P0505 still returns immediately and steps 3 through 5 are clean, the driver in the PCM is what is left.",
+          "Do not clear codes and start the truck to watch the code while oil is on the pipe."
+        ] },
+        { t: "h", text: "Order of work" },
+        { t: "ol", items: [
+          "Stay parked. The old guides, the fuse charts, and the diagrams stay in force.",
+          "Do the key-on circuit tests above. No parts from that until the meter names a side.",
+          "Cold: find the oil, degrease only when you can hold the iron, fix the leak. No new oxygen sensor until that bung and connector are dry.",
+          "Replace the brittle EVAP and vacuum elbows before the first start. They are a likely lean and high-idle path once it runs. They are not the key-on code. Match the hoses on the truck. The hose map is not a factory vacuum diagram.",
+          "First start only after the pipe is clean, the leak is fixed, and the elbows are done. Outdoors, extinguisher ready. If the manifold glows, key off. Do not repeat it.",
+          "P0161 hardware comes after the oil is gone. The heater walk still does not name a fuse cavity.",
+          "PCM money is last. Only if the powered test leaves the PCM as the only thing left."
+        ] },
+        { t: "h", text: "PCM quotes that were gathered" },
+        { t: "p", text: "Prices below are what was quoted for this repair. {{stated:STATED}} They are not a live catalog check. A unit that needs a flash or VIN programming is not plug-and-play. A seller saying pre-programmed does not prove this VIN's calibration or the immobilizer. A used computer is the gamble, not the plan." },
+        { t: "table", caption: "Quoted 14 Oct 2026. Verify before anyone pays.",
+          heads: ["Source", "Quoted", "What they said"],
+          rows: [
+            ["New OEM, dealer", "About $412.13", "Needs VIN programming"],
+            ["Reman, Solo PCMs", "$249.00", "Claimed pre-programmed, plug-and-play"],
+            ["Reman, Summit Racing", "$248.99", "Needs a PROM or flash"],
+            ["Used, Swan Auto ECM", "$100.00", "Used. Not the recommended buy"],
+            ["Send the current unit out", "$295 to $375", "Repair, not a second computer"]
+          ] },
+        { t: "h", text: "StartMyCar, checked against this bench" },
+        { t: "p", text: "External page: https://www.startmycar.com/jeep/grand-cherokee/info/fusebox/2004 . That site has labeled a 2004 Grand Cherokee as a WK. This truck is a WJ. Do not use a 2005 and later IPM picture from there. Where their words match the 2004 owner chart already on this bench, the match is noted. The lid and the cover still win." },
+        { t: "ul", items: [
+          "Interior fuse 12, 10A, auto shut down relay / Fuel, matches the owner chart on the driver-side page. Their extra line that it feeds the PCM and the fuel-pump relay is their wording. {{stated:STATED}} On the service charts the PCM also has under-hood mini 19, and the fuel pump has mini 24 and relay R1. Do not collapse those into fuse 12. The P0161 walk still names no cavity.",
+          "C1, 20A, wiper circuit breaker, matches the owner chart.",
+          "Cartridge 15 is the Ignition-Off Draw fuse in the owner manual. A second description says the IOD plug can be parked in a storage slot, and that site says location 11. Those are two descriptions. Match the label in your hand. Do not treat slot 11 and cartridge 15 as one proven step.",
+          "Under-hood cavity 12 is still a conflict between charts. It is not interior fuse 12. This note does not give cavity 12 one job."
+        ] },
+        { t: "go", id: "three", label: "Three problems, still separate" },
+        { t: "go", id: "pdc", label: "Under-hood fuse box" },
+        { t: "go", id: "junction", label: "Driver-side fuse box" },
+        { t: "jump", act: "goto", mode: "walk", tree: "p0505", label: "Walk P0505" },
+        { t: "jump", act: "mode", mode: "order", label: "Repair order" },
+        { t: "guide", id: "05", label: "Guide 05, glowing manifold" },
+        { t: "guide", id: "06", label: "Guide 06, oil and fire" }
+      ]
+    },
+    {
       id: "three",
       code: "3",
       group: "here",
@@ -41,7 +129,7 @@ window.STEPHS_LIB = {
       kicker: "This truck · field diagrams",
       find: "diagram schematic drawing fuse layout exhaust sensor crank",
       figAfter: true,
-      figs: ["split3", "places", "fusetest", "pdcflow", "cab", "heater", "iod", "grounds", "nocrank", "nofire", "hotstall", "engine", "charge", "skim", "belt", "cooling", "tickglow", "exhaust", "oilpaths", "blower", "trans42", "tcase", "ps", "wobble", "booster", "absring", "window", "lamps", "horn", "breaker", "radio"],
+      figs: ["keyon", "split3", "places", "fusetest", "pdcflow", "cab", "heater", "iod", "grounds", "nocrank", "nofire", "hotstall", "engine", "charge", "skim", "belt", "cooling", "tickglow", "exhaust", "oilpaths", "blower", "trans42", "tcase", "ps", "wobble", "booster", "absring", "window", "lamps", "horn", "breaker", "radio"],
       blocks: [
         { t: "p", text: "These drawings were made for this bench. They are not photographs of this VIN, and they are not Chrysler service-manual pages. A fuse drawing is the flow. It is not the physical lid. If the label in the truck disagrees, the label wins." },
         { t: "card", kind: "stop", title: "What no drawing here can be", text: "The stamped under-hood lid and the stamped interior cover. Photograph those on this truck. A factory wiring diagram is in the service manual for this VIN. A picture of a 2005 and later WK is the wrong truck." }

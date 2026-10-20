@@ -22,6 +22,16 @@
   }
 
   window.STEPHS_FIGS = {
+    keyon: fig(
+      "Key-on P0505 is a circuit test",
+      "A vacuum leak and a shoved pintle change idle only after the engine is running. An instant code at key-on is electrical. The PCM driver is {{poss:POSSIBLE}} only after the powered checks are clean.",
+      "diagram key on p0505 pcm vacuum leak short to power",
+      row(
+        card("stop", "Cannot cause key-on P0505", "A vacuum leak. Cracked elbows. A pintle that was pushed, if the coils still measure good. Those change a running idle."),
+        card("test", "Can cause key-on P0505", "Open driver wire. Short to ground. Short to power with the key on. A pin that only connects when a probe is forced in."),
+        card("warn", "PCM driver, last", "Only after the harness is clean with C1 unplugged and the code still sets with a known-good IAC. Not confirmed today.")
+      ) + note("Do not jumper the ASD relay. Do not start the engine while oil is on the manifold.")
+    ),
     split3: fig(
       "Three problems. No arrow between them.",
       "Idle, oil-fire, and P0161 stay separate. A misfire can glow the manifold without the idle chain. {{stop:STOP}} if the iron is orange or oil is on the exhaust.",
