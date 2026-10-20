@@ -82,7 +82,10 @@ window.STEPHS_LIB = {
             ["Send the current unit out", "$295 to $375", "Repair, not a second computer"]
           ] },
         { t: "h", text: "StartMyCar, checked against this bench" },
-        { t: "p", text: "External page: https://www.startmycar.com/jeep/grand-cherokee/info/fusebox/2004 . That site has labeled a 2004 Grand Cherokee as a WK. This truck is a WJ. Do not use a 2005 and later IPM picture from there. Where their words match the 2004 owner chart already on this bench, the match is noted. The lid and the cover still win." },
+        { t: "p", text: "Their 2004 Grand Cherokee fuse page is linked below. That site has labeled this year as a WK. This truck is a WJ. Do not use a 2005 and later IPM picture from there. Where their words match the 2004 owner chart already on this bench, the match is noted. The lid and the cover still win." },
+        { t: "links", items: [
+          ["https://www.startmycar.com/jeep/grand-cherokee/info/fusebox/2004#anchorfusebox1", "StartMyCar 2004 fuse boxes"]
+        ] },
         { t: "ul", items: [
           "Interior fuse 12, 10A, auto shut down relay / Fuel, matches the owner chart on the driver-side page. Their extra line that it feeds the PCM and the fuel-pump relay is their wording. {{stated:STATED}} On the service charts the PCM also has under-hood mini 19, and the fuel pump has mini 24 and relay R1. Do not collapse those into fuse 12. The P0161 walk still names no cavity.",
           "C1, 20A, wiper circuit breaker, matches the owner chart.",
@@ -237,6 +240,10 @@ window.STEPHS_LIB = {
         { t: "go", id: "how", label: "How to test a fuse" },
         { t: "go", id: "junction", label: "Driver-side fuse box" },
         { t: "go", id: "iod", label: "IOD and a dead battery" },
+        { t: "links", items: [
+          ["https://www.startmycar.com/jeep/grand-cherokee/info/fusebox/2004#anchorfusebox1", "StartMyCar 2004 fuse boxes"]
+        ] },
+        { t: "p", text: "StartMyCar is an outside chart. It has called a 2004 Grand Cherokee a WK. This truck is a WJ. Use it as a cross-check only. The lid on this truck wins, and under-hood cavity 12 stays a conflict." },
         { t: "jump", act: "goto", mode: "walk", tree: "p0161", label: "P0161 walk, fuse step still unnamed" }
       ]
     },
@@ -301,6 +308,10 @@ window.STEPHS_LIB = {
         { t: "go", id: "how", label: "How to test a fuse" },
         { t: "go", id: "lights", label: "Lamps" },
         { t: "go", id: "wipers", label: "Wipers" },
+        { t: "links", items: [
+          ["https://www.startmycar.com/jeep/grand-cherokee/info/fusebox/2004#anchorfusebox1", "StartMyCar 2004 fuse boxes"]
+        ] },
+        { t: "p", text: "StartMyCar is an outside chart. Interior fuse 12 and breaker C1 on this page come from the 2004 owner manual. If that site disagrees with the cover in the truck, the cover wins." },
         { t: "jump", act: "goto", mode: "walk", tree: "p0161", label: "P0161 walk" }
       ]
     },
